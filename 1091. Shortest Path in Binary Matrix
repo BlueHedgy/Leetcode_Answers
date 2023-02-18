@@ -1,0 +1,39 @@
+class Solution {
+public:
+    // Time limit exceeded
+    // Why not &grid in dfs function? So the marked visted doesn't affect other paths of DFS when it's checking
+    // Maybe this could be fixed by backtracking, that would lower the overhead memory as well
+    // BFS seems a better method for this
+    void dfs(vector<vector<int>> grid, int count, int i, int j, vector<int> &path_length){
+        if (i < 0 || j <0 || i > grid.size()-1 || j > grid[0].size()-1 || grid[i][j] == 1) return;
+        count++;
+        if (i == grid.size() -1 && j == grid[0].size()-1){
+            path_length.push_back(count);
+            return;
+        }
+
+        vector<int> dir{1, -1, 0, 1, 0, -1, -1, 1, 1}; // Directional vector to check 8 adjacent tiles
+
+        grid[i][j] = 1; //mark visited
+        
+
+        for (int ind = 0; ind < 8; ind++){
+            int r = i + dir[ind];
+            int c = j + dir[ind+1];
+
+            dfs(grid, count, r, c, path_length);
+        }
+    }
+    
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int i = 0, j = 0;
+        vector<int> path_length;
+        int count = 0;
+
+        if (path_length)
+        dfs(grid, count, 0, 0, path_length);
+        // sort(path_length.begin(), path_length.end());
+
+        return path_length.size() == 0? -1 :  path_length[0];
+    }
+};
